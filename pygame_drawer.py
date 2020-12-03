@@ -3,9 +3,15 @@ import pygame
 import math
 
 _screen_size = (0, 0)
-_point_color = (255, 255, 255)
 _screen_color = (0, 0, 0)
 _car_color = (255, 0, 0)
+
+
+def check_point(point):
+    if math.isinf(point[0]) or math.isinf(point[1]) or math.isnan(point[0]) or math.isnan(point[1]) or \
+       not (int(point[0]) in range(0, _screen_size[0]) and int(point[1]) in range(0, _screen_size[1])):
+        return False
+    return True
 
 
 def clean_screen(screen):
@@ -25,14 +31,11 @@ def init(size):
     return screen
 
 
-def add_points_to_plot(screen, points):
+def add_points_to_plot(screen, points, color):
     pixel_arr = pygame.PixelArray(screen.get_surface())
     for p in points:
-        if math.isinf(p[0]) or math.isinf(p[1]) or math.isnan(p[0]) or math.isnan(p[1]):
-            continue
-        if not (int(p[0]) in range(0, _screen_size[0]) and int(p[1]) in range(0, _screen_size[1])):
-            continue
-        pixel_arr[int(p[0]), int(p[1])] = _point_color
+        if check_point(p):
+            pixel_arr[int(p[0]), int(p[1])] = color
 
 
 def redraw(screen):
