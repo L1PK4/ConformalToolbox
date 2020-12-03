@@ -4,21 +4,24 @@ import cmath
 import time
 
 
-def user_area_func(x, y):
-    z = complex(x, y)
-    return abs(z) < 1
+user_area_color = (255, 255, 255)
+axis_color = (0, 255, 0)
 
 
-def user_w_func(x, y):
-    z = complex(x, y)
-    if z == 0:
-        return [cmath.inf, cmath.inf]
-    res = 1 / z
-    return [res.real, res.imag]
+def user_area_func(z):
+    return abs(z) < 2
+
+
+def user_w1_func(z):
+    return -1 / z
 
 
 def main():
-    pg_screen = pygame_drawer.init((cmtb.window_size_x, cmtb.window_size_y))
+    cmtb.setup_axis_values(-5, 5, -5, 5)
+    cmtb.setup_dt_value(0.01)
+    cmtb.setup_window_size(1000, 1000)
+
+    pg_screen = pygame_drawer.init(cmtb.get_window_size())
 
     s = time.time()
     x_axis, y_axis = cmtb.gen_axis_points()
@@ -28,15 +31,15 @@ def main():
 
     s = time.time()
     points = cmtb.gen_area_points(user_area_func)
-    points = cmtb.compute_user_w_func(user_w_func, points)
+    points = cmtb.compute_user_w_func(user_w1_func, points)
     points = cmtb.prepare_points_to_pygame(points)
     print(time.time() - s)
 
     s = time.time()
     pygame_drawer.clean_screen(pg_screen)
-    pygame_drawer.add_points_to_plot(pg_screen, x_axis)
-    pygame_drawer.add_points_to_plot(pg_screen, y_axis)
-    pygame_drawer.add_points_to_plot(pg_screen, points)
+    pygame_drawer.add_points_to_plot(pg_screen, points, user_area_color)
+    pygame_drawer.add_points_to_plot(pg_screen, x_axis, axis_color)
+    pygame_drawer.add_points_to_plot(pg_screen, y_axis, axis_color)
     pygame_drawer.redraw(pg_screen)
     print(time.time() - s)
 

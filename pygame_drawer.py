@@ -3,7 +3,6 @@ import pygame
 import math
 
 _screen_size = (0, 0)
-_point_color = (255, 255, 255)
 _screen_color = (0, 0, 0)
 _car_color = (255, 0, 0)
 
@@ -32,11 +31,11 @@ def init(size):
     return screen
 
 
-def add_points_to_plot(screen, points):
+def add_points_to_plot(screen, points, color):
     pixel_arr = pygame.PixelArray(screen.get_surface())
     for p in points:
         if check_point(p):
-            pixel_arr[int(p[0]), int(p[1])] = _point_color
+            pixel_arr[int(p[0]), int(p[1])] = color
 
 
 def redraw(screen):
