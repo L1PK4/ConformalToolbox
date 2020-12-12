@@ -9,14 +9,39 @@ axis_color = (0, 255, 0)
 
 
 def user_area_func(z):
-    return abs(z) < 2
+    return (z.imag > 0) and (abs(z - 1) > 1) and (abs(z - 2) < 2)
 
+
+
+#funcs = [
+#    lambda z : z/(z - 4),
+#    lambda z : -z,
+#    lambda z : (z-1)/z,
+#    lambda z : cmath.pi *(z - 1)/ 1j,
+#    lambda z : cmath.cosh(z)
+#]
+funcs = []
 
 def user_w1_func(z):
-    return -1 / z
+    for i in funcs:
+        z = i(z)
+    return z
 
 
 def main():
+
+    s = ''
+    i = 1
+    while 1:
+        s = input(f'w{i}) ')
+        i += 1
+        if s == 'stop':
+            break
+        else:
+            funcs.append(eval('lambda z : {}'.format(s)))
+
+
+
     cmtb.setup_axis_values(-5, 5, -5, 5)
     cmtb.setup_dt_value(0.01)
     cmtb.setup_window_size(1000, 1000)
